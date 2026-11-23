@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'app_theme.dart';
+import 'widgets/section_card.dart';
+
 void main() {
   runApp(const NutriTrackApp());
 }
@@ -9,10 +12,18 @@ class NutriTrackApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'NutriTrack',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: Center(child: Text('NutriTrack'))),
+      theme: buildTheme(),
+      home: const Scaffold(
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: SectionCard(child: Text('NutriTrack')),
+          ),
+        ),
+      ),
     );
   }
 }
