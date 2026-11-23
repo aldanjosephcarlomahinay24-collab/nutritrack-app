@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/meal_store.dart';
 import '../widgets/pop_nav_bar.dart';
 import 'fuel_screen.dart';
+import 'meal_plan_screen.dart';
 import 'pantry_screen.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -22,7 +23,7 @@ class _MainNavigationState extends State<MainNavigation> {
     final screens = [
       const _ComingSoon('Today'),
       FuelScreen(store: widget.store),
-      const _ComingSoon('Plan'),
+      const MealPlanScreen(),
       PantryScreen(store: widget.store),
     ];
     return Scaffold(
