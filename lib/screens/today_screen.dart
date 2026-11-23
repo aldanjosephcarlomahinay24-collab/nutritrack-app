@@ -41,6 +41,8 @@ class TodayScreen extends StatelessWidget {
     return ListenableBuilder(
       listenable: store,
       builder: (context, _) {
+        final totals = store.today;
+        final meals = store.todayMeals;
         final streak = store.currentStreak;
         final best = store.bestStreak;
         return ListView(
@@ -51,6 +53,27 @@ class TodayScreen extends StatelessWidget {
               title: '${store.greeting},\n${store.userName}',
             ),
             _StreakCard(streak: streak, best: best),
+            const SizedBox(height: 22),
+            Row(
+              children: [
+                Expanded(
+                  child: StatCard(
+                    icon: Icons.restaurant,
+                    value: '${meals.length}/3',
+                    label: 'Meals',
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: StatCard(
+                    icon: Icons.account_balance_wallet_outlined,
+                    value: peso(totals.cost),
+                    label: 'of ${peso(store.dailyBudget)}',
+                    color: AppColors.pink,
+                  ),
+                ),
+              ],
+            ),
           ],
         );
       },
