@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/meal_store.dart';
 import '../widgets/pop_nav_bar.dart';
+import 'pantry_screen.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key, required this.store});
@@ -21,7 +22,7 @@ class _MainNavigationState extends State<MainNavigation> {
       const _ComingSoon('Today'),
       const _ComingSoon('Fuel'),
       const _ComingSoon('Plan'),
-      const _ComingSoon('Pantry'),
+      PantryScreen(store: widget.store),
     ];
     return Scaffold(
       body: SafeArea(
