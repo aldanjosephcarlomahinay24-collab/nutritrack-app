@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'app_theme.dart';
-import 'widgets/section_card.dart';
+import 'data/meal_store.dart';
+import 'screens/main_navigation.dart';
 
 void main() {
-  runApp(const NutriTrackApp());
+  final store = MealStore()..loadSampleData();
+  runApp(NutriTrackApp(store: store));
 }
 
 class NutriTrackApp extends StatelessWidget {
-  const NutriTrackApp({super.key});
+  const NutriTrackApp({super.key, required this.store});
+
+  final MealStore store;
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +20,7 @@ class NutriTrackApp extends StatelessWidget {
       title: 'NutriTrack',
       debugShowCheckedModeBanner: false,
       theme: buildTheme(),
-      home: const Scaffold(
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: SectionCard(child: Text('NutriTrack')),
-          ),
-        ),
-      ),
+      home: MainNavigation(store: store),
     );
   }
 }
