@@ -45,6 +45,21 @@ class TodayScreen extends StatelessWidget {
         final meals = store.todayMeals;
         final streak = store.currentStreak;
         final best = store.bestStreak;
+        final goals = [
+          _Goal('Log 3 meals', 'FOOD', '${meals.length}/3', meals.length >= 3),
+          _Goal(
+            'Stay under budget',
+            'BUDGET',
+            peso(totals.cost),
+            totals.cost <= store.dailyBudget && meals.isNotEmpty,
+          ),
+          _Goal(
+            'Hit protein goal',
+            'FUEL',
+            '${totals.protein.round()}g',
+            totals.protein >= store.proteinGoal,
+          ),
+        ];
         return ListView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
           children: [
@@ -74,6 +89,16 @@ class TodayScreen extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 26),
+            SectionTitle(
+              "Today's goals",
+              trailing: Pill('${goals.where((g) => g.done).length}/3 done'),
+            ),
+            const SizedBox(height: 14),
+            for (final goal in goals) ...[
+              _GoalRow(goal: goal),
+              const SizedBox(height: 16),
+            ],
           ],
         );
       },
@@ -170,6 +195,63 @@ class _StreakCard extends StatelessWidget {
               ],
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Goal {
+  const _Goal(this.title, this.tag, this.value, this.done);
+
+  final String title;
+  final String tag;
+  final String value;
+  final bool done;
+}
+
+class _GoalRow extends StatelessWidget {
+  const _GoalRow({required this.goal});
+
+  final _Goal goal;
+
+  @override
+  Widget build(BuildContext context) {
+    return SectionCard(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+      child: Row(
+        children: [
+          Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: goal.done ? AppColors.blue : Colors.white,
+              border: Border.all(color: AppColors.ink, width: 2.5),
+            ),
+            child: goal.done
+                ? const Icon(Icons.check, color: Colors.white, size: 20)
+                : null,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  goal.title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    decoration: goal.done ? TextDecoration.lineThrough : null,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Pill(goal.tag),
+              ],
+            ),
+          ),
+          Pill(goal.value),
         ],
       ),
     );
